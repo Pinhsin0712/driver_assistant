@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>司機排班系統</title>
+  <style>
+    body {
+      background: #f0f4f8;
+      font-family: 'Segoe UI', '微軟正黑體', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 480px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    h1 {
+      color: #2d6cdf;
+      margin-bottom: 24px;
+    }
+    label {
+      display: block;
+      margin: 12px 0 6px 0;
+      color: #333;
+      text-align: left;
+    }
+    input[type="text"], input[type="date"], input[type="time"], input[type="number"], textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #cfd8dc;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      font-size: 1em;
+      background: #f9fbfc;
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: vertical;
+    }
+    .btn {
+      background: linear-gradient(90deg, #2d6cdf 60%, #4fc3f7 100%);
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 12px 32px;
+      font-size: 1.1em;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: linear-gradient(90deg, #1e4fa3 60%, #039be5 100%);
+    }
+    .success {
+      color: #388e3c;
+      margin-bottom: 16px;
+    }
+    .error {
+      color: #d32f2f;
+      margin-bottom: 16px;
+    }
+    a {
+      color: #2d6cdf;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 16px;
+      display: inline-block;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>司機排班系統</h1>
+
+    {% if result %}
+      <h2 class="success">❓ 排班成功！</h2>
+      <p><strong>乘客：</strong>{{ result.passenger_name }}</p>
+      <p><strong>派出司機：</strong>{{ result.driver_name }}</p>
+      <p><strong>日期：</strong>{{ result.schedule_date }}</p>
+      <p><strong>時間：</strong>{{ result.pickup_time }}</p>
+      <p><strong>上車地點：</strong>{{ result.pickup_location }}</p>
+      <p><strong>下車地點：</strong>{{ result.dropoff_location }}</p>
+      <p><strong>航班號碼：</strong>{{ result.flight_number }}</p>
+      <p><strong>航廈（T1/T2）：</strong>{{ result.terminal}}</p>
+      <p><strong>備註：</strong>{{ result.note}}</p>
+      <a href="/" class="btn">回到首頁</a>
+    
+    {% else %}
+      {% if error %}
+        <p class="error">{{ error }}</p>
+      {% endif %}
+
+      <form action="/add" method="post">
+        <label>排班日期：<input type="date" name="schedule_date" required></label>
+        <label>乘客姓名：<input type="text" name="passenger_name" required></label>
+        <label>乘客電話：<input type="text" name="passenger_phone" required></label>
+        <label>上車時間：<input type="time" name="pickup_time" required></label>
+        <label>上車地點：<input type="text" name="pickup_location" required></label>
+        <label>下車地點：<input type="text" name="dropoff_location" required></label>
+        <label>行李件數：<input type="number" name="luggage_count" min="0"></label>
+        <label>航班號碼：<input type="text" name="flight_number"></label>
+        <label>航廈（T1/T2）：<input type="text" name="terminal"></label>
+        <label>備註：<textarea name="note" rows="4" cols="50"></textarea></label>
+        <button type="submit" class="btn">提交並自動指派司機</button>
+        <a href="/" class="btn">返回上一頁</a>
+      </form>
+    {% endif %}
+    
+  </div>
+</body>
+</html>
